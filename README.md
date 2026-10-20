@@ -41,3 +41,16 @@ Stop:
 ```bash
 docker compose down
 ```
+
+## AI Tool Usage Declaration
+
+**AI/MT Tool:** ChatGPT
+
+**Purpose of Use:**
+I used ChatGPT as a coding assistant while completing this project. It helped write, test and debug code, set up Docker and Kubernetes, and draft documentation and diagrams.
+
+**Prompts Used:**
+I asked for help with the backend services, frontend, database, Docker, Kubernetes, Google Cloud deployment, error messages, documentation and code checking.
+
+**Where the AI/MT Tool Was Used:**
+AI was used across the project, including the backend, frontend, database, infrastructure files, documentation, diagrams and proposal draft.
