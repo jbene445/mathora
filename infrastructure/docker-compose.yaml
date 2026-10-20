@@ -1,0 +1,77 @@
+services:
+  frontend:
+    build: ../frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - answer
+      - curriculum
+      - progress
+      - question
+      - quiz
+      - solver
+    networks:
+      - app-network
+
+  answer:
+    build: ../backend/answer
+    ports:
+      - "8001:8000"
+    networks:
+      - app-network
+
+  curriculum:
+    build: ../backend/curriculum
+    ports:
+      - "8002:8000"
+    networks:
+      - app-network
+
+  progress:
+    build: ../backend/progress
+    ports:
+      - "8003:8000"
+    networks:
+      - app-network
+
+  question:
+    build: ../backend/question
+    ports:
+      - "8004:8000"
+    networks:
+      - app-network
+
+  quiz:
+    build: ../backend/quiz
+    ports:
+      - "8005:8000"
+    networks:
+      - app-network
+
+  solver:
+    build: ../backend/solver
+    ports:
+      - "8006:8000"
+    networks:
+      - app-network
+
+  database:
+    build: ../database
+    volumes:
+      - database:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_DB: mathora
+      POSTGRES_USER: mathora
+      POSTGRES_PASSWORD: mathora
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+volumes:
+  database: {}
+
+networks:
+  app-network:
+    driver: bridge

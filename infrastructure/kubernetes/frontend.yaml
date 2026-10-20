@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: frontend
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            run: frontend
+    template:
+        metadata:
+            labels:
+                run: frontend
+        spec:
+            containers:
+            - name: frontend
+              image: mathora-frontend:v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: frontend
+spec:
+    type: LoadBalancer
+    selector:
+        run: frontend
+    ports:
+    - port: 80

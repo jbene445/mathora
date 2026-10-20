@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: question
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            run: question
+    template:
+        metadata:
+            labels:
+                run: question
+        spec:
+            containers:
+            - name: question
+              image: mathora-question:v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: question
+spec:
+    selector:
+        run: question
+    ports:
+    - port: 8000

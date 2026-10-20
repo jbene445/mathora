@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: database
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            run: database
+    template:
+        metadata:
+            labels:
+                run: database
+        spec:
+            containers:
+            - name: database
+              image: mathora-database:v1
+              env:
+              - name: POSTGRES_DB
+                value: mathora
+              - name: POSTGRES_USER
+                value: mathora
+              - name: POSTGRES_PASSWORD
+                value: mathora
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: database
+spec:
+    selector:
+        run: database
+    ports:
+    - port: 5432

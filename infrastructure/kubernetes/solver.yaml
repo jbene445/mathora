@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: solver
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            run: solver
+    template:
+        metadata:
+            labels:
+                run: solver
+        spec:
+            containers:
+            - name: solver
+              image: mathora-solver:v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: solver
+spec:
+    selector:
+        run: solver
+    ports:
+    - port: 8000

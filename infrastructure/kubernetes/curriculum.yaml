@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: curriculum
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            run: curriculum
+    template:
+        metadata:
+            labels:
+                run: curriculum
+        spec:
+            containers:
+            - name: curriculum
+              image: mathora-curriculum:v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: curriculum
+spec:
+    selector:
+        run: curriculum
+    ports:
+    - port: 8000

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: progress
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            run: progress
+    template:
+        metadata:
+            labels:
+                run: progress
+        spec:
+            containers:
+            - name: progress
+              image: mathora-progress:v1
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: progress
+spec:
+    selector:
+        run: progress
+    ports:
+    - port: 8000
