@@ -1,9 +1,10 @@
 services:
-  frontend:
-    build: ../frontend
+  student:
+    build: ../frontend/student
     ports:
       - "3000:80"
     depends_on:
+      - account
       - answer
       - curriculum
       - progress
@@ -13,8 +14,38 @@ services:
     networks:
       - app-network
 
+  developer:
+    build: ../frontend/developer
+    ports:
+      - "3001:80"
+    depends_on:
+      - answer
+      - curriculum
+      - question
+      - solver
+    networks:
+      - app-network
+
+  account:
+    build: ../backend/account
+    environment:
+      DATABASE_URL: postgresql://mathora:mathora@database:5432/mathora
+    depends_on:
+      - database
+    ports:
+      - "8007:8000"
+    networks:
+      - app-network
+
   answer:
     build: ../backend/answer
+    environment:
+      DATABASE_URL: postgresql://mathora:mathora@database:5432/mathora
+      SOLVER_URL: http://solver:8000
+      PROGRESS_URL: http://progress:8000
+    depends_on:
+      - database
+      - solver
     ports:
       - "8001:8000"
     networks:
@@ -22,6 +53,10 @@ services:
 
   curriculum:
     build: ../backend/curriculum
+    environment:
+      DATABASE_URL: postgresql://mathora:mathora@database:5432/mathora
+    depends_on:
+      - database
     ports:
       - "8002:8000"
     networks:
@@ -29,6 +64,12 @@ services:
 
   progress:
     build: ../backend/progress
+    environment:
+      DATABASE_URL: postgresql://mathora:mathora@database:5432/mathora
+      ACCOUNT_URL: http://account:8000
+    depends_on:
+      - database
+      - account
     ports:
       - "8003:8000"
     networks:
@@ -36,6 +77,10 @@ services:
 
   question:
     build: ../backend/question
+    environment:
+      DATABASE_URL: postgresql://mathora:mathora@database:5432/mathora
+    depends_on:
+      - database
     ports:
       - "8004:8000"
     networks:
@@ -43,6 +88,18 @@ services:
 
   quiz:
     build: ../backend/quiz
+    environment:
+      DATABASE_URL: postgresql://mathora:mathora@database:5432/mathora
+      ACCOUNT_URL: http://account:8000
+      QUESTION_URL: http://question:8000
+      ANSWER_URL: http://answer:8000
+      PROGRESS_URL: http://progress:8000
+    depends_on:
+      - database
+      - account
+      - question
+      - answer
+      - progress
     ports:
       - "8005:8000"
     networks:

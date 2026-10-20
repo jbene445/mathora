@@ -1,0 +1,8 @@
+[project]
+name = "account"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.150.0",
+    "psycopg[binary,pool]>=3.3.6",
+]

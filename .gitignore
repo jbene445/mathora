@@ -462,3 +462,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Mathora: curriculum PDFs used to write the database data
+documentation/

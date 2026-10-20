@@ -15,6 +15,17 @@ spec:
             containers:
             - name: question
               image: mathora-question:v1
+              readinessProbe:
+                httpGet:
+                  path: /health
+                  port: 8000
+              lifecycle:
+                preStop:
+                  exec:
+                    command: ["sleep", "5"]
+              env:
+              - name: DATABASE_URL
+                value: postgresql://mathora:mathora@database:5432/mathora
 ---
 apiVersion: v1
 kind: Service

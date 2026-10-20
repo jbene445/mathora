@@ -1,13 +1,8 @@
 # Mathora
 
-Run:
-
-```bash
-cd infrastructure
-docker compose up -d
-```
-
-- frontend: http://localhost:3000
+- frontend/student: http://localhost:3000
+- frontend/developer: http://localhost:3001
+- backend/account: http://localhost:8007/docs
 - backend/answer: http://localhost:8001/docs
 - backend/curriculum: http://localhost:8002/docs
 - backend/progress: http://localhost:8003/docs
@@ -15,6 +10,32 @@ docker compose up -d
 - backend/quiz: http://localhost:8005/docs
 - backend/solver: http://localhost:8006/docs
 - database: localhost:5432
+
+## Cloud
+
+Deploy using CLI: [Deploy](DEPLOY.md)
+Deploy using GUI: [Deploy Visual](DEPLOY-VISUAL.md)
+
+## Local
+
+Run:
+
+```bash
+cd infrastructure
+docker compose up -d
+```
+
+Example accounts (password mathora123):
+
+- demo
+- student
+
+Rebuild:
+
+```bash
+docker compose up -d --build
+docker compose restart student developer
+```
 
 Stop:
 

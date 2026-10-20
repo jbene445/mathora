@@ -27,6 +27,8 @@ gcloud auth configure-docker australia-southeast1-docker.pkg.dev
 Build:
 
 ```bash
+docker build -t $REGISTRY/mathora-account:v1 backend/account
+docker push $REGISTRY/mathora-account:v1
 docker build -t $REGISTRY/mathora-answer:v1 backend/answer
 docker push $REGISTRY/mathora-answer:v1
 docker build -t $REGISTRY/mathora-curriculum:v1 backend/curriculum
@@ -39,8 +41,10 @@ docker build -t $REGISTRY/mathora-quiz:v1 backend/quiz
 docker push $REGISTRY/mathora-quiz:v1
 docker build -t $REGISTRY/mathora-solver:v1 backend/solver
 docker push $REGISTRY/mathora-solver:v1
-docker build -t $REGISTRY/mathora-frontend:v1 frontend
-docker push $REGISTRY/mathora-frontend:v1
+docker build -t $REGISTRY/mathora-developer:v1 frontend/developer
+docker push $REGISTRY/mathora-developer:v1
+docker build -t $REGISTRY/mathora-student:v1 frontend/student
+docker push $REGISTRY/mathora-student:v1
 docker build -t $REGISTRY/mathora-database:v1 database
 docker push $REGISTRY/mathora-database:v1
 sed -i "s|image: mathora-|image: $REGISTRY/mathora-|" infrastructure/kubernetes/*.yaml
@@ -55,11 +59,16 @@ kubectl get pods
 kubectl get svc
 ```
 
-- frontend: http://<EXTERNAL-IP>
+- frontend/student: http://<student_ip>
+- frontend/developer: http://<developer_ip>
 
 ImagePullBackOff (Console):
 
 - IAM & Admin → IAM: add Artifact Registry Reader to `<project_number>-compute@developer.gserviceaccount.com`
+
+```bash
+kubectl delete pods --all
+```
 
 Scale:
 
@@ -80,7 +89,8 @@ Load balance:
 ```bash
 for i in {1..8}
 do
-  curl -s http://<EXTERNAL-IP>/api/quiz/
+  curl -s http://<student_ip>/api/quiz/
+  echo
 done
 ```
 
@@ -111,6 +121,12 @@ Resume:
 
 ```bash
 gcloud container clusters resize mathora-cluster --num-nodes=3 --zone australia-southeast1-a
+```
+
+Delete:
+
+```bash
+kubectl delete -f infrastructure/kubernetes/
 ```
 
 Delete (Console):

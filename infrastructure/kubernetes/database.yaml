@@ -1,9 +1,23 @@
+# Permanent storage: data survives pod restarts. SQL files only load into an empty disk
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: database
+spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+        requests:
+            storage: 10Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: database
 spec:
     replicas: 1
+    strategy:
+        type: Recreate
     selector:
         matchLabels:
             run: database
@@ -22,6 +36,15 @@ spec:
                 value: mathora
               - name: POSTGRES_PASSWORD
                 value: mathora
+              - name: PGDATA
+                value: /var/lib/postgresql/data/pgdata
+              volumeMounts:
+              - name: data
+                mountPath: /var/lib/postgresql/data
+            volumes:
+            - name: data
+              persistentVolumeClaim:
+                  claimName: database
 ---
 apiVersion: v1
 kind: Service
