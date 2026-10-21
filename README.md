@@ -13,7 +13,9 @@
 
 ## Cloud
 
-Deploy: [Deploy](DEPLOY.md)
+[Deploy CLI](DEPLOY.md)
+
+[Deploy GUI](DEPLOY-VISUAL.md)
 
 ## Local
 
